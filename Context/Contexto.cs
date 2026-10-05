@@ -10,5 +10,5 @@ public class Contexto : DbContext
         
     }
 
-    public DbSet<Modelo1> Modelo1 { get; set; }
+    public DbSet<Autores> Autores { get; set; }
 }
