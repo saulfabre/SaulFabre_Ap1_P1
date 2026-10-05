@@ -11,7 +11,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddBlazorBootstrap();
 
-builder.Services.AddScoped<Modelo1Services>();
+builder.Services.AddScoped<AutoresServices>();
 
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("SqlConStr")));
 
