@@ -1,0 +1,93 @@
+@page "/Autores/Create"
+
+@rendermode InteractiveServer
+
+@inject AutoresServices AutoresServices
+@inject ToastService ToastService
+
+<EditForm Model="Autor" OnValidSubmit="Guardar">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+<div class="container">
+    <div class="card shadow-lg ">
+        <div class="card-header d-flex align-items-center" style="height: 54px;">
+            <h5 class="mb-0">
+                Crear Autor
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex flex-column gap-2">
+                <label class="form-label">
+                    <strong>Nombres</strong>
+                </label>
+                <InputText @bind-Value="Autor.Nombres" class="form-control"></InputText >
+                <ValidationMessage For="@(() => Autor.Nombres)"></ValidationMessage>
+
+                <label class="form-label">
+                    <strong>Nacionalidad</strong>
+                </label>
+                <InputText @bind-Value="Autor.Nacionalidad" class="form-control"></InputText >
+                <ValidationMessage For="@(() => Autor.Nacionalidad)"></ValidationMessage>
+
+                <label class="form-label">
+                    <strong>Fecha Nacimiento</strong>
+                </label>
+                <InputDate @bind-Value="Autor.FechaNacimiento" class="form-control"></InputDate >
+
+                <label class="form-label">
+                    <strong>Sueldo</strong>
+                </label>
+                <InputNumber @bind-Value="Autor.Sueldo" class="form-control"></InputNumber>
+
+            </div>
+        </div>
+
+        <div class="card-footer d-flex gap-3">
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <a href="/Autores/Index" class="btn btn-outline-secondary">Volver</a>
+        </div>
+    </div>
+</div>
+
+</EditForm>
+
+@code {
+    public Autores Autor { get; set; } = new();
+
+    public async Task Guardar()
+    {
+
+        if (Autor == null)
+        {
+            ToastService.ShowWarning("Este Autor no se encuentra.", "Crear Autor");
+        }
+
+        if (await AutoresServices.Existe(Autor.IdAutor))
+        {
+
+            ToastService.ShowWarning("Este Autor ya existe.", "Crear Autor");
+            return;
+        }
+
+        if (Autor.Sueldo < 0)
+        {
+            ToastService.ShowWarning("Debes ingresar un sueldo mayor a 0.", "Crear Autor");
+            return;
+        }
+
+        if (await AutoresServices.Guardar(Autor))
+        {
+            ToastService.ShowSuccess("Autor creado correctamente!", "Crear Autor");
+            Autor = new();
+            return;
+        }
+
+        else
+        {
+            ToastService.ShowWarning("No se ha podido crear el Autor correctamente", "Crear Autor");
+            return;
+        }
+    }
+}

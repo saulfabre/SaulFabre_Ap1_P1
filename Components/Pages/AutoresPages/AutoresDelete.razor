@@ -1,0 +1,93 @@
+@page "/Autores/Delete/{IdAutor:int}"
+@using SaulFabre_Ap1_P1.Extensors
+@using SaulFabre_Ap1_P1.Models
+
+@rendermode InteractiveServer
+
+@inject AutoresServices AutoresServices
+@inject ToastService ToastService
+@inject NavigationManager NavigationManager
+
+@if (Autor != null)
+{
+
+    <div class="container">
+        <div class="card shadow-lg ">
+            <div class="card-header d-flex align-items-center" style="height: 54px;">
+                <h5 class="mb-0">
+                    Eliminar Autor
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <div class="d-flex flex-column gap-2">
+                    <label class="form-label">
+                        <strong>Id</strong>
+                    </label>
+                    <InputNumber @bind-Value="Autor.IdAutor" disabled class="form-control"></InputNumber>
+
+                    <div class="d-flex flex-column gap-2">
+                        <label class="form-label">
+                            <strong>Nombres</strong>
+                        </label>
+                        <InputText @bind-Value="Autor.Nombres" disabled class="form-control"></InputText>
+
+                        <label class="form-label">
+                            <strong>Nacionalidad</strong>
+                        </label>
+                        <InputText @bind-Value="Autor.Nacionalidad" disabled class="form-control"></InputText>
+
+                        <label class="form-label">
+                            <strong>Fecha Nacimiento</strong>
+                        </label>
+                        <InputDate @bind-Value="Autor.FechaNacimiento" disabled class="form-control"></InputDate>
+
+                        <label class="form-label">
+                            <strong>Sueldo</strong>
+                        </label>
+                        <InputNumber @bind-Value="Autor.Sueldo" disabled class="form-control"></InputNumber>
+                    </div>
+                </div>
+    
+            </div>
+
+            <div class="card-footer d-flex gap-3">
+                <button @onclick="Eliminar" class="btn btn-danger">Eliminar</button>
+                <a href="/Autores/Index" class="btn btn-outline-secondary">Volver</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Autor no encontrado</p>
+}
+
+@code {
+
+    [Parameter]
+    public int IdAutor { get; set; }
+    public Autores? Autor { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Autor = await AutoresServices.Buscar(IdAutor);
+    }
+
+    public async Task Eliminar()
+    {
+
+        if (await AutoresServices.Eliminar(IdAutor))
+        {
+            ToastService.ShowSuccess("Autor eliminado correctamente!", "Eliminar Autor");
+            NavigationManager.NavigateTo("/Autores/Index");
+            return;
+        }
+
+        else
+        {
+            ToastService.ShowWarning("No se ha podido eliminar el Autor correctamente", "Eliminar Autor");
+            return;
+        }
+    }
+}
