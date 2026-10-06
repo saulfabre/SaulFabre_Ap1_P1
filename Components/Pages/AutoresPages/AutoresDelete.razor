@@ -1,12 +1,12 @@
 @page "/Autores/Delete/{IdAutor:int}"
-@using SaulFabre_Ap1_P1.Extensors
-@using SaulFabre_Ap1_P1.Models
 
 @rendermode InteractiveServer
 
 @inject AutoresServices AutoresServices
 @inject ToastService ToastService
 @inject NavigationManager NavigationManager
+
+<PageTitle>Eliminar Autor</PageTitle>
 
 @if (Autor != null)
 {
