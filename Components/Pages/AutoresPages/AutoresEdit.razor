@@ -79,6 +79,14 @@ else
         if (Autor == null)
         {
             ToastService.ShowWarning("Este Autor no se encuentra.", "Editar Autor");
+            return;
+        }
+
+        if (await AutoresServices.Existe(Autor.Nombres))
+        {
+
+            ToastService.ShowWarning("Este Autor ya existe.", "Crear Autor");
+            return;
         }
 
         if (await AutoresServices.Guardar(Autor))

@@ -50,11 +50,11 @@
 
             @*QuickGrid*@
             <QuickGrid Items="@Autores.AsQueryable()" Class="table table-bordered mt-3 align-center align-middle">
-                <PropertyColumn Property="@(a => a.IdAutor)" Title="ID"></PropertyColumn>
-                <PropertyColumn Property="@(a => a.Nombres)" Title="Nombres"></PropertyColumn>
-                <PropertyColumn Property="@(a => a.Nacionalidad)" Title="Nacionalidad"></PropertyColumn>
-                <PropertyColumn Property="@(a => a.FechaNacimiento)" Title="Fecha Nacimiento"></PropertyColumn>
-                <PropertyColumn Property="@(a => a.Sueldo)" Title="Sueldo"></PropertyColumn>
+                <PropertyColumn Property="@(a => a.IdAutor)" Title="ID" Sortable="true"></PropertyColumn>
+                <PropertyColumn Property="@(a => a.Nombres)" Title="Nombres" Sortable="true"></PropertyColumn>
+                <PropertyColumn Property="@(a => a.Nacionalidad)" Title="Nacionalidad" Sortable="true"></PropertyColumn>
+                <PropertyColumn Property="@(a => a.FechaNacimiento)" Title="Fecha Nacimiento" Sortable="true"></PropertyColumn>
+                <PropertyColumn Property="@(a => a.Sueldo)" Title="Sueldo" Sortable="true"></PropertyColumn>
 
                 <TemplateColumn Title="Acciones">
                     <a href="/Autores/Edit/@context.IdAutor" class="btn btn-warning">Editar</a>
