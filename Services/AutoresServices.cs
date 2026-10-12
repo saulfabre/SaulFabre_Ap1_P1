@@ -23,11 +23,11 @@ public class AutoresServices(IDbContextFactory<Contexto> contextFactory) : IServ
         return await contexto.Autores.Where(criterio).AsNoTracking().ToListAsync();
     }
 
-    public async Task<bool> Existe(int idAutor)
+    public async Task<bool> Existe(string nombres)
     {
         await using var contexto = await contextFactory.CreateDbContextAsync();
 
-        return await contexto.Autores.AnyAsync(a => a.IdAutor == idAutor);
+        return await contexto.Autores.AnyAsync(a => a.Nombres == nombres);
     }
 
     public async Task<bool> Insertar(Autores autor)
@@ -57,7 +57,7 @@ public class AutoresServices(IDbContextFactory<Contexto> contextFactory) : IServ
 
     public async Task<bool> Guardar(Autores autor)
     {
-        if (!await Existe(autor.IdAutor))
+        if (!await Existe(autor.Nombres))
         {
             return await Insertar(autor);
         }
